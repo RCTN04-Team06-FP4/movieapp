@@ -1,39 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { FaAngleLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import axios from 'axios'
 import ReactLoading from "react-loading";
+import useGetDetail from '../hooks/useGetDetail.hook';
 
 const Detail = () => {
   const navigate = useNavigate()
   const {id} = useParams()
   const [data, setData] = useState({})
   const [isLoading, setIsLoading] = useState(false)
-
-  useEffect(() => {
-    setIsLoading(true)
-    const params = {
-      apikey: process.env.REACT_APP_API_KEY,
-      i: id 
-    };
-    const fetchDetail = async() => {
-      try {
-        await axios.get(
-          "http://www.omdbapi.com/", 
-          { params }
-        )
-        .then( async (response) => {
-          setData(response.data)
-          setIsLoading(false)
-        });
-      } catch(error) {
-        console.log(error);
-        setIsLoading(false);
-      }
-    }
-    fetchDetail()
-  }, [id])
+  useGetDetail(id, setIsLoading, setData)
 
   if (isLoading) {
     return (

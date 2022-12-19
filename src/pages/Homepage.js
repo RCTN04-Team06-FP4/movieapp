@@ -1,18 +1,12 @@
-import React, { useEffect }  from 'react'
+import React  from 'react'
 import MovieCard from '../components/MovieCard'
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchMovies } from "../features/movieSlice";
 import ReactLoading from "react-loading";
+import useGetMovies from '../hooks/useGetMovies.hook';
 
 
 const Homepage = ({ search }) => {
-
-    const { movies, loading } = useSelector((state) => state.movie);
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(fetchMovies(search));
-    }, [search]);
+    
+    const {movies, loading} = useGetMovies(search)
 
     if (loading) {
         return (
